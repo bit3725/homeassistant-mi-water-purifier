@@ -1,9 +1,9 @@
 # homeassistant-mi-water-purifier
 XiaoMi Water Purifier component for Home Assistant.
 
-![Screenshot1](https://raw.githubusercontent.com/bit3725/homeassistant-mi-water-purifier/master/images/screenshot1.jpg)
-![Screenshot2](https://raw.githubusercontent.com/bit3725/homeassistant-mi-water-purifier/master/images/screenshot2.jpg)
-![Screenshot3](https://raw.githubusercontent.com/bit3725/homeassistant-mi-water-purifier/master/images/screenshot3.jpg)
+![Screenshot1](https://raw.githubusercontent.com/bit3725/homeassistant-mi-water-purifier/master/images/screenshot1.png)
+![Screenshot2](https://raw.githubusercontent.com/bit3725/homeassistant-mi-water-purifier/master/images/screenshot2.png)
+![Screenshot3](https://raw.githubusercontent.com/bit3725/homeassistant-mi-water-purifier/master/images/screenshot3.png)
 
 ## Installation
 1. Copy *custom_components/sensor/mi_water_purifier.py* to **.homeassistant/custom_components/sensor**.
