@@ -8,7 +8,7 @@ from homeassistant.exceptions import PlatformNotReady
 
 _LOGGER = logging.getLogger(__name__)
 
-REQUIREMENTS = ['python-miio==0.3.1']
+REQUIREMENTS = ['python-miio>=0.3.1']
 
 TAP_WATER_QUALITY = {'name': 'Tap water', 'key': 'ttds'}
 FILTERED_WATER_QUALITY = {'name': 'Filtered water', 'key': 'ftds'}
