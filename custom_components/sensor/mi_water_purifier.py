@@ -5,6 +5,7 @@ import logging
 from homeassistant.const import (CONF_NAME, CONF_HOST, CONF_TOKEN, )
 from homeassistant.helpers.entity import Entity
 from homeassistant.exceptions import PlatformNotReady
+from miio import Device, DeviceException
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -20,7 +21,6 @@ REAR_ACTIVE_CARBON_FILTER_REMAINING = {'name': 'Rear active carbon filter', 'key
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Perform the setup for Xiaomi water purifier."""
-    from miio import Device, DeviceException
 
     host = config.get(CONF_HOST)
     name = config.get(CONF_NAME)
