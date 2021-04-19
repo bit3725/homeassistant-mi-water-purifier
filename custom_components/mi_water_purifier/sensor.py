@@ -9,8 +9,6 @@ from miio import Device, DeviceException
 
 _LOGGER = logging.getLogger(__name__)
 
-REQUIREMENTS = ['python-miio>=0.3.1']
-
 TAP_WATER_QUALITY = {'name': 'Tap water', 'key': 'ttds'}
 FILTERED_WATER_QUALITY = {'name': 'Filtered water', 'key': 'ftds'}
 PP_COTTON_FILTER_REMAINING = {'name': 'PP cotton filter', 'key': 'pfd', 'days_key': 'pfp'}
