@@ -6,7 +6,9 @@ from homeassistant.const import (CONF_NAME, CONF_HOST, CONF_TOKEN, )
 from homeassistant.helpers.entity import Entity
 from homeassistant.exceptions import PlatformNotReady
 from miio import Device, DeviceException
+from datetime import timedelta
 
+SCAN_INTERVAL = timedelta(seconds=5)
 _LOGGER = logging.getLogger(__name__)
 
 TAP_WATER_QUALITY = {'name': 'Tap water', 'key': 'ttds'}
