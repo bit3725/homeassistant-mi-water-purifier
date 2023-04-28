@@ -34,28 +34,29 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
         device = Device(host, token)
         waterPurifier = XiaomiWaterPurifier(device, name, unique_id)
         devices.append(waterPurifier)
-        devices.append(XiaomiWaterPurifierSensor(waterPurifier, TAP_WATER_QUALITY))
-        devices.append(XiaomiWaterPurifierSensor(waterPurifier, FILTERED_WATER_QUALITY))
-        devices.append(XiaomiWaterPurifierSensor(waterPurifier, PP_COTTON_FILTER_REMAINING))
-        devices.append(XiaomiWaterPurifierSensor(waterPurifier, FRONT_ACTIVE_CARBON_FILTER_REMAINING))
-        devices.append(XiaomiWaterPurifierSensor(waterPurifier, RO_FILTER_REMAINING))
-        devices.append(XiaomiWaterPurifierSensor(waterPurifier, REAR_ACTIVE_CARBON_FILTER_REMAINING))
+        devices.append(XiaomiWaterPurifierSensor(waterPurifier, TAP_WATER_QUALITY, unique_id))
+        devices.append(XiaomiWaterPurifierSensor(waterPurifier, FILTERED_WATER_QUALITY, unique_id))
+        devices.append(XiaomiWaterPurifierSensor(waterPurifier, PP_COTTON_FILTER_REMAINING, unique_id))
+        devices.append(XiaomiWaterPurifierSensor(waterPurifier, FRONT_ACTIVE_CARBON_FILTER_REMAINING, unique_id))
+        devices.append(XiaomiWaterPurifierSensor(waterPurifier, RO_FILTER_REMAINING, unique_id))
+        devices.append(XiaomiWaterPurifierSensor(waterPurifier, REAR_ACTIVE_CARBON_FILTER_REMAINING, unique_id))
     except DeviceException:
         _LOGGER.exception('Fail to setup Xiaomi water purifier')
         raise PlatformNotReady
 
     add_devices(devices)
 
+
 class XiaomiWaterPurifierSensor(Entity):
     """Representation of a XiaomiWaterPurifierSensor."""
 
-    def __init__(self, waterPurifier, data_key):
+    def __init__(self, waterPurifier, data_key, unique_id):
         """Initialize the XiaomiWaterPurifierSensor."""
         self._state = None
         self._data = None
         self._waterPurifier = waterPurifier
         self._data_key = data_key
-        self._attr_unique_id = 'MI_WATER_PURIFIER_' + data_key['key']
+        self._attr_unique_id = unique_id + '_' + data_key['key']
         self.parse_data()
 
     @property
@@ -67,7 +68,7 @@ class XiaomiWaterPurifierSensor(Entity):
     def icon(self):
         """Icon to use in the frontend, if any."""
         if self._data_key['key'] is TAP_WATER_QUALITY['key'] or \
-           self._data_key['key'] is FILTERED_WATER_QUALITY['key']:
+                self._data_key['key'] is FILTERED_WATER_QUALITY['key']:
             return 'mdi:water'
         else:
             return 'mdi:filter-outline'
@@ -81,7 +82,7 @@ class XiaomiWaterPurifierSensor(Entity):
     def unit_of_measurement(self):
         """Return the unit of measurement of this entity, if any."""
         if self._data_key['key'] is TAP_WATER_QUALITY['key'] or \
-           self._data_key['key'] is FILTERED_WATER_QUALITY['key']:
+                self._data_key['key'] is FILTERED_WATER_QUALITY['key']:
             return 'TDS'
         return '%'
 
@@ -91,9 +92,9 @@ class XiaomiWaterPurifierSensor(Entity):
         attrs = {}
 
         if self._data_key['key'] is PP_COTTON_FILTER_REMAINING['key'] or \
-           self._data_key['key'] is FRONT_ACTIVE_CARBON_FILTER_REMAINING['key'] or \
-           self._data_key['key'] is RO_FILTER_REMAINING['key'] or \
-           self._data_key['key'] is REAR_ACTIVE_CARBON_FILTER_REMAINING['key']:
+                self._data_key['key'] is FRONT_ACTIVE_CARBON_FILTER_REMAINING['key'] or \
+                self._data_key['key'] is RO_FILTER_REMAINING['key'] or \
+                self._data_key['key'] is REAR_ACTIVE_CARBON_FILTER_REMAINING['key']:
             attrs[self._data_key['name']] = '{} days remaining'.format(self._data[self._data_key['days_key']])
 
         return attrs
@@ -106,6 +107,7 @@ class XiaomiWaterPurifierSensor(Entity):
     def update(self):
         """Get the latest data and updates the states."""
         self.parse_data()
+
 
 class XiaomiWaterPurifier(Entity):
     """Representation of a XiaomiWaterPurifier."""
@@ -149,9 +151,11 @@ class XiaomiWaterPurifier(Entity):
         attrs = {}
         attrs[TAP_WATER_QUALITY['name']] = '{}TDS'.format(self._data[TAP_WATER_QUALITY['key']])
         attrs[PP_COTTON_FILTER_REMAINING['name']] = '{}%'.format(self._data[PP_COTTON_FILTER_REMAINING['key']])
-        attrs[FRONT_ACTIVE_CARBON_FILTER_REMAINING['name']] = '{}%'.format(self._data[FRONT_ACTIVE_CARBON_FILTER_REMAINING['key']])
+        attrs[FRONT_ACTIVE_CARBON_FILTER_REMAINING['name']] = '{}%'.format(
+            self._data[FRONT_ACTIVE_CARBON_FILTER_REMAINING['key']])
         attrs[RO_FILTER_REMAINING['name']] = '{}%'.format(self._data[RO_FILTER_REMAINING['key']])
-        attrs[REAR_ACTIVE_CARBON_FILTER_REMAINING['name']] = '{}%'.format(self._data[REAR_ACTIVE_CARBON_FILTER_REMAINING['key']])
+        attrs[REAR_ACTIVE_CARBON_FILTER_REMAINING['name']] = '{}%'.format(
+            self._data[REAR_ACTIVE_CARBON_FILTER_REMAINING['key']])
 
         return attrs
 
