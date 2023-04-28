@@ -2,7 +2,7 @@
 import math
 import logging
 
-from homeassistant.const import (CONF_NAME, CONF_HOST, CONF_TOKEN, )
+from homeassistant.const import (CONF_NAME, CONF_HOST, CONF_TOKEN, CONF_UNIQUE_ID)
 from homeassistant.helpers.entity import Entity
 from homeassistant.exceptions import PlatformNotReady
 from miio import Device, DeviceException
@@ -25,13 +25,14 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     host = config.get(CONF_HOST)
     name = config.get(CONF_NAME)
     token = config.get(CONF_TOKEN)
+    unique_id = config.get(CONF_UNIQUE_ID)
 
     _LOGGER.info("Initializing Xiaomi water purifier with host %s (token %s...)", host, token[:5])
 
     devices = []
     try:
         device = Device(host, token)
-        waterPurifier = XiaomiWaterPurifier(device, name)
+        waterPurifier = XiaomiWaterPurifier(device, name, unique_id)
         devices.append(waterPurifier)
         devices.append(XiaomiWaterPurifierSensor(waterPurifier, TAP_WATER_QUALITY))
         devices.append(XiaomiWaterPurifierSensor(waterPurifier, FILTERED_WATER_QUALITY))
@@ -54,6 +55,7 @@ class XiaomiWaterPurifierSensor(Entity):
         self._data = None
         self._waterPurifier = waterPurifier
         self._data_key = data_key
+        self._attr_unique_id = 'MI_WATER_PURIFIER_' + data_key['key']
         self.parse_data()
 
     @property
@@ -108,11 +110,12 @@ class XiaomiWaterPurifierSensor(Entity):
 class XiaomiWaterPurifier(Entity):
     """Representation of a XiaomiWaterPurifier."""
 
-    def __init__(self, device, name):
+    def __init__(self, device, name, unique_id):
         """Initialize the XiaomiWaterPurifier."""
         self._state = None
         self._device = device
         self._name = name
+        self._attr_unique_id = unique_id
         self.parse_data()
 
     @property
