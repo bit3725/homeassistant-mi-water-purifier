@@ -17,4 +17,5 @@ sensor:
     host: YOUR_SENSOR_IP
     token: YOUR_SENSOR_TOKEN
     name: YOUT_SENSOR_NAME
+    unique_id: YOUR_UNIQUE_ID
 ```
